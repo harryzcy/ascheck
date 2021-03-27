@@ -1,6 +1,7 @@
 package macapp
 
 import (
+	"debug/macho"
 	"io/fs"
 	"io/ioutil"
 	"os"
@@ -44,6 +45,38 @@ func (a *Application) GetExecutableName() (string, error) {
 	}
 
 	return plistDecoded.CFBundleExecutable, err
+}
+
+func (a *Application) GetArchitectures() ([]string, error) {
+	var (
+		architectures []string
+	)
+
+	executable, err := a.GetExecutableName()
+	if err != nil {
+		return nil, err
+	}
+
+	// binary file path
+	binary := filepath.Join(a.Path, "Contents", "MacOS", executable)
+
+	fat, err := macho.OpenFat(binary)
+	if err == nil {
+		// file is Mach-O universal
+		for _, arch := range fat.Arches {
+			architectures = append(architectures, resolveArch(arch.Cpu))
+		}
+	} else {
+		// file is Mach-O
+		f, err := macho.Open(binary)
+		if err != nil {
+			return nil, err
+		}
+
+		architectures = append(architectures, resolveArch(f.Cpu))
+	}
+
+	return architectures, nil
 }
 
 // GetAllApplications returns all applications
