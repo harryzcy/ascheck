@@ -76,6 +76,7 @@ func (a *Application) GetArchitectures() ([]string, error) {
 		architectures = append(architectures, resolveArch(f.Cpu))
 	}
 
+	a.Architectures = architectures
 	return architectures, nil
 }
 
@@ -114,6 +115,7 @@ func resolveApplication(dir string, f fs.FileInfo) (Application, error) {
 		Name: strings.TrimSuffix(f.Name(), ".app"),
 		Path: filepath.Join(dir, f.Name()),
 	}
+	app.GetArchitectures()
 
 	return app, nil
 }
