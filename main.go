@@ -10,6 +10,7 @@ import (
 
 func main() {
 	app := &cli.App{
+		Usage: "A cli app that check app's Apple Silicon support",
 		Action: func(c *cli.Context) error {
 			fmt.Printf("Initial action")
 			return nil
