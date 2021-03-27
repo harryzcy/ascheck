@@ -3,18 +3,47 @@ package macapp
 import (
 	"io/fs"
 	"io/ioutil"
+	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
+
+	"howett.net/plist"
 )
 
 const (
 	applicationPath = "/Applications"
 )
 
+var executablePattern, _ = regexp.Compile(`(?is)CFBundleExecutable.*?<string>(.*?)<\/string>`)
+
 type Application struct {
 	Name          string
 	Path          string
 	Architectures []string
+}
+
+type executableDecoded struct {
+	CFBundleExecutable string
+}
+
+func (a *Application) GetExecutableName() (string, error) {
+	plistFile := filepath.Join(a.Path, "Contents", "Info.plist")
+
+	f, err := os.Open(plistFile)
+	if err != nil {
+		return "", err
+	}
+	defer f.Close()
+
+	decoder := plist.NewDecoder(f)
+	var plistDecoded executableDecoded
+	err = decoder.Decode(&plistDecoded)
+	if err != nil {
+		return "", err
+	}
+
+	return plistDecoded.CFBundleExecutable, err
 }
 
 // GetAllApplications returns all applications
