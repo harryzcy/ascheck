@@ -21,8 +21,10 @@ func handleErr(err error) {
 
 func main() {
 	app := &cli.App{
-		Usage:   "A cli app that check app's Apple Silicon support",
-		Version: "0.1.0",
+		Usage:           "A cli app that check app's Apple Silicon support",
+		Version:         "0.1.0",
+		HideHelpCommand: true,
+		UsageText:       "ascheck [global options]",
 		Action: func(c *cli.Context) error {
 			err := remotecheck.Init()
 			handleErr(err)
