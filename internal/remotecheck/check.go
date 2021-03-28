@@ -12,16 +12,17 @@ const (
 
 var (
 	pattern, _ = regexp.Compile(`\* \[(.*?)\]\((.*?)\) - (✅|✳️|⏹|🚫|🔶)`)
+
+	infoCache map[string]appInfo = make(map[string]appInfo)
 )
 
 type appInfo struct {
-	Name    string
 	Website string
 	Support string
 }
 
 // getInfo loads the list of reported app support from Does it ARM.
-func getInfo() ([]appInfo, error) {
+func getInfo() (map[string]appInfo, error) {
 	resp, err := http.Get(sourceURL)
 	if err != nil {
 		return nil, err
@@ -35,15 +36,14 @@ func getInfo() ([]appInfo, error) {
 
 	matches := pattern.FindAllStringSubmatch(string(body), -1)
 
-	var result []appInfo
 	for _, match := range matches {
+		name := match[1]
 		info := appInfo{
-			Name:    match[1],
 			Website: match[2],
 			Support: match[3],
 		}
-		result = append(result, info)
+		infoCache[name] = info
 	}
 
-	return result, nil
+	return infoCache, nil
 }

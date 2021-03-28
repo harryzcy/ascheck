@@ -9,5 +9,5 @@ import (
 func TestGetInfo(t *testing.T) {
 	info, err := getInfo()
 	assert.Nil(t, err)
-	assert.IsType(t, []appInfo{}, info)
+	assert.IsType(t, map[string]appInfo{}, info)
 }
