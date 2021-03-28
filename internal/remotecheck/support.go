@@ -39,7 +39,7 @@ func (s Support) String() string {
 		return "Supported"
 
 	case SupportTransition:
-		return "Supported *"
+		return "Supported*"
 
 	case SupportInDevelopment:
 		return "Unsupported"
