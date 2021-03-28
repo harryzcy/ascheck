@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/harryzcy/ascheck/internal/localcheck"
+	"github.com/harryzcy/ascheck/internal/remotecheck"
 )
 
 var (
@@ -27,9 +28,18 @@ func init() {
 }
 
 type Application struct {
-	Name          string
-	Path          string
+	// Name shows the app name
+	Name string
+
+	// Path shows the physical location
+	Path string
+	// Architectures represents the architectures of the currently installed version
 	Architectures localcheck.Architectures
+
+	// Website shows the app's website, empty if unknown
+	Website string
+	// ArmSupport shows the Apple Silicon support based on Does It Arm reports
+	ArmSupport string
 }
 
 // GetAllApplications returns all applications
@@ -53,7 +63,7 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 
 		for _, f := range files {
 			if strings.HasSuffix(f.Name(), ".app") {
-				app, err := resolveApplication(dir, f)
+				app, err := checkApplication(dir, f)
 				if err != nil {
 					return nil, err
 				}
@@ -65,7 +75,7 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 	return applications, nil
 }
 
-func resolveApplication(dir string, f fs.FileInfo) (Application, error) {
+func checkApplication(dir string, f fs.FileInfo) (Application, error) {
 	app := Application{
 		Name: strings.TrimSuffix(f.Name(), ".app"),
 		Path: filepath.Join(dir, f.Name()),
@@ -76,6 +86,17 @@ func resolveApplication(dir string, f fs.FileInfo) (Application, error) {
 	if err != nil {
 		return Application{}, err
 	}
+
+	info, err := remotecheck.GetInfo(app.Name)
+	if err == remotecheck.ErrNotFound {
+		return app, nil
+	}
+	if err != nil {
+		return Application{}, err
+	}
+
+	app.Website = info.Website
+	app.ArmSupport = info.ArmSupport
 
 	return app, nil
 }
