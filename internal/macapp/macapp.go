@@ -80,6 +80,12 @@ func checkApplication(dir string, f fs.FileInfo) Application {
 
 	app.Architectures, _ = localcheck.GetArchitectures(app.Path)
 
+	// mark system apps as natively supported
+	if strings.HasPrefix(dir, "/System/") {
+		app.ArmSupport = remotecheck.SupportNative
+		return app
+	}
+
 	info, err := remotecheck.GetInfo(app.Name)
 	if err == nil {
 		app.Website = info.Website
