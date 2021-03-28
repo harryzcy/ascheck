@@ -5,15 +5,27 @@ import (
 	"io/fs"
 	"io/ioutil"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strings"
 
 	"howett.net/plist"
 )
 
-const (
-	applicationPath = "/Applications"
+var (
+	applicationPath []string
 )
+
+func init() {
+	usr, _ := user.Current()
+	userApplication := filepath.Join(usr.HomeDir, "Applications")
+
+	applicationPath = []string{
+		"/System/Applications",
+		"/Applications",
+		userApplication,
+	}
+}
 
 type Application struct {
 	Name          string
@@ -76,12 +88,15 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 	)
 
 	if dirs == nil {
-		dirs = []string{applicationPath}
+		dirs = applicationPath
 	}
 
 	for _, dir := range dirs {
 		files, err := ioutil.ReadDir(dir)
 		if err != nil {
+			if os.IsNotExist(err) {
+				continue
+			}
 			return nil, err
 		}
 
