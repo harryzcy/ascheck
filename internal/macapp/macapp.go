@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"howett.net/plist"
@@ -15,8 +14,6 @@ import (
 const (
 	applicationPath = "/Applications"
 )
-
-var executablePattern, _ = regexp.Compile(`(?is)CFBundleExecutable.*?<string>(.*?)<\/string>`)
 
 type Application struct {
 	Name          string
