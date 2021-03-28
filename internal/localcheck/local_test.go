@@ -15,5 +15,5 @@ func TestApplication_GetExecutableName(t *testing.T) {
 func TestApplication_GetArchitectures(t *testing.T) {
 	arch, err := GetArchitectures("/System/Applications/Maps.app")
 	assert.Nil(t, err)
-	assert.Equal(t, []string{"Intel 64"}, arch)
+	assert.EqualValues(t, 0b10, arch.Intel)
 }
