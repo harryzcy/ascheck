@@ -6,7 +6,7 @@ A CLI tool that checks all your apps for their Apple Silicon support.
 
 ### go install
 
-```go
+```shell
 go install github.com/harryzcy/ascheck
 ```
 
