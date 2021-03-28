@@ -1,4 +1,4 @@
-package macapp
+package localcheck
 
 import (
 	"debug/macho"

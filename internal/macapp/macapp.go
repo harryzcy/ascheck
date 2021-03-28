@@ -1,7 +1,6 @@
 package macapp
 
 import (
-	"debug/macho"
 	"io/fs"
 	"io/ioutil"
 	"os"
@@ -9,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"howett.net/plist"
+	"github.com/harryzcy/ascheck/internal/localcheck"
 )
 
 var (
@@ -30,55 +29,7 @@ func init() {
 type Application struct {
 	Name          string
 	Path          string
-	Architectures Architectures
-}
-
-type executableDecoded struct {
-	CFBundleExecutable string
-}
-
-func (a *Application) GetExecutableName() (string, error) {
-	plistFile := filepath.Join(a.Path, "Contents", "Info.plist")
-
-	f, err := os.Open(plistFile)
-	if err != nil {
-		return "", err
-	}
-	defer f.Close()
-
-	decoder := plist.NewDecoder(f)
-	var plistDecoded executableDecoded
-	err = decoder.Decode(&plistDecoded)
-	if err != nil {
-		return "", err
-	}
-
-	return plistDecoded.CFBundleExecutable, err
-}
-
-func (a *Application) GetArchitectures() (Architectures, error) {
-	executable, err := a.GetExecutableName()
-	if err != nil {
-		return a.Architectures, err
-	}
-
-	// binary file path
-	binary := filepath.Join(a.Path, "Contents", "MacOS", executable)
-
-	fat, err := macho.OpenFat(binary)
-	if err == nil {
-		// file is Mach-O universal
-		a.Architectures.LoadFromFat(fat.Arches)
-	} else {
-		// file is Mach-O
-		f, err := macho.Open(binary)
-		if err != nil {
-			return a.Architectures, err
-		}
-		a.Architectures.Load(f.Cpu)
-	}
-
-	return a.Architectures, nil
+	Architectures localcheck.Architectures
 }
 
 // GetAllApplications returns all applications
@@ -119,7 +70,12 @@ func resolveApplication(dir string, f fs.FileInfo) (Application, error) {
 		Name: strings.TrimSuffix(f.Name(), ".app"),
 		Path: filepath.Join(dir, f.Name()),
 	}
-	app.GetArchitectures()
+
+	var err error
+	app.Architectures, err = localcheck.GetArchitectures(app.Path)
+	if err != nil {
+		return Application{}, err
+	}
 
 	return app, nil
 }
