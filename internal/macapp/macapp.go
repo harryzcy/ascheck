@@ -18,7 +18,7 @@ const (
 type Application struct {
 	Name          string
 	Path          string
-	Architectures []string
+	Architectures Architectures
 }
 
 type executableDecoded struct {
@@ -44,14 +44,10 @@ func (a *Application) GetExecutableName() (string, error) {
 	return plistDecoded.CFBundleExecutable, err
 }
 
-func (a *Application) GetArchitectures() ([]string, error) {
-	var (
-		architectures []string
-	)
-
+func (a *Application) GetArchitectures() (Architectures, error) {
 	executable, err := a.GetExecutableName()
 	if err != nil {
-		return nil, err
+		return a.Architectures, err
 	}
 
 	// binary file path
@@ -60,21 +56,17 @@ func (a *Application) GetArchitectures() ([]string, error) {
 	fat, err := macho.OpenFat(binary)
 	if err == nil {
 		// file is Mach-O universal
-		for _, arch := range fat.Arches {
-			architectures = append(architectures, resolveArch(arch.Cpu))
-		}
+		a.Architectures.LoadFromFat(fat.Arches)
 	} else {
 		// file is Mach-O
 		f, err := macho.Open(binary)
 		if err != nil {
-			return nil, err
+			return a.Architectures, err
 		}
-
-		architectures = append(architectures, resolveArch(f.Cpu))
+		a.Architectures.Load(f.Cpu)
 	}
 
-	a.Architectures = architectures
-	return architectures, nil
+	return a.Architectures, nil
 }
 
 // GetAllApplications returns all applications

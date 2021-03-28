@@ -2,7 +2,6 @@ package output
 
 import (
 	"os"
-	"strings"
 
 	"github.com/harryzcy/ascheck/internal/macapp"
 	"github.com/olekukonko/tablewriter"
@@ -14,7 +13,7 @@ func Table(apps []macapp.Application) {
 	table.SetHeader([]string{"Name", "Architectures"})
 
 	for _, app := range apps {
-		table.Append([]string{app.Name, strings.Join(app.Architectures, ", ")})
+		table.Append([]string{app.Name, app.Architectures.String()})
 	}
 
 	table.Render()

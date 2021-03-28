@@ -1,22 +1,71 @@
 package macapp
 
-import "debug/macho"
+import (
+	"debug/macho"
+	"strings"
+)
 
-func resolveArch(arch macho.Cpu) string {
-	switch arch {
+type Architectures struct {
+	Intel   uint
+	Arm     uint
+	PowerPC uint
+}
+
+// Load loads the architectures from macho.Cpu
+func (arch *Architectures) Load(cpu macho.Cpu) {
+	switch cpu {
 	case macho.Cpu386:
-		return "Intel 32"
+		arch.Intel |= 0b01
 	case macho.CpuAmd64:
-		return "Intel 64"
+		arch.Intel |= 0b10
 	case macho.CpuArm:
-		return "Arm 32"
+		arch.Arm |= 0b01
 	case macho.CpuArm64:
-		return "Arm 64"
+		arch.Arm |= 0b10
 	case macho.CpuPpc:
-		return "PowerPC 32"
+		arch.PowerPC |= 0b01
 	case macho.CpuPpc64:
-		return "PowerPC 64"
-	default:
+		arch.PowerPC |= 0b10
+	}
+}
+
+// LoadFromFat loads the architectures from []macho.FatArch
+func (arch *Architectures) LoadFromFat(src []macho.FatArch) {
+	for _, fat := range src {
+		arch.Load(fat.Cpu)
+	}
+}
+
+// String returns the architecture in string format
+func (arch *Architectures) String() string {
+	var list []string
+
+	if arch.Intel > 0 {
+		list = append(list, "Intel "+getBitString(arch.Intel))
+	}
+	if arch.Arm > 0 {
+		list = append(list, "Arm "+getBitString(arch.Arm))
+	}
+	if arch.PowerPC > 0 {
+		list = append(list, "PowerPC "+getBitString(arch.PowerPC))
+	}
+
+	if len(list) > 0 {
+		return strings.Join(list, ", ")
+	} else {
 		return "Unknown"
+	}
+}
+
+func getBitString(mask uint) string {
+	switch mask {
+	case 0b11:
+		return "32/64"
+	case 0b01:
+		return "32"
+	case 0b10:
+		return "64"
+	default:
+		return ""
 	}
 }
