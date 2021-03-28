@@ -11,6 +11,10 @@ import (
 func Table(apps []macapp.Application) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Name", "Current Architectures", "Arm Support"})
+	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
+	table.SetCenterSeparator("")
+	table.SetColumnSeparator("")
+	table.SetBorder(false)
 
 	for _, app := range apps {
 		table.Append([]string{app.Name, app.Architectures.String(), app.ArmSupport.String()})
