@@ -34,5 +34,5 @@ go build -o ascheck .
 #### run
 
 ```shell
-./ascheck
+./ascheck -h
 ```
