@@ -51,7 +51,7 @@ func (s Support) String() string {
 		return "Unknown"
 
 	default:
-		return ""
+		return "Unknown"
 
 	}
 }
