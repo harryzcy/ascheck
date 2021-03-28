@@ -21,17 +21,17 @@ type appInfo struct {
 	Support string
 }
 
-// getInfo loads the list of reported app support from Does it ARM.
-func getInfo() (map[string]appInfo, error) {
+// Init loads the list of reported app support from Does it ARM.
+func Init() error {
 	resp, err := http.Get(sourceURL)
 	if err != nil {
-		return nil, err
+		return err
 	}
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	matches := pattern.FindAllStringSubmatch(string(body), -1)
@@ -45,5 +45,5 @@ func getInfo() (map[string]appInfo, error) {
 		infoCache[name] = info
 	}
 
-	return infoCache, nil
+	return nil
 }

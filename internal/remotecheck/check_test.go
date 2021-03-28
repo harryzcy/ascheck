@@ -6,8 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetInfo(t *testing.T) {
-	info, err := getInfo()
+func TestInit(t *testing.T) {
+	err := Init()
 	assert.Nil(t, err)
-	assert.IsType(t, map[string]appInfo{}, info)
 }
