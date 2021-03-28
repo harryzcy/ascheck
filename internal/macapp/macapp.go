@@ -63,10 +63,7 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 
 		for _, f := range files {
 			if strings.HasSuffix(f.Name(), ".app") {
-				app, err := checkApplication(dir, f)
-				if err != nil {
-					return nil, err
-				}
+				app := checkApplication(dir, f)
 				applications = append(applications, app)
 			}
 		}
@@ -75,28 +72,19 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 	return applications, nil
 }
 
-func checkApplication(dir string, f fs.FileInfo) (Application, error) {
+func checkApplication(dir string, f fs.FileInfo) Application {
 	app := Application{
 		Name: strings.TrimSuffix(f.Name(), ".app"),
 		Path: filepath.Join(dir, f.Name()),
 	}
 
-	var err error
-	app.Architectures, err = localcheck.GetArchitectures(app.Path)
-	if err != nil {
-		return Application{}, err
-	}
+	app.Architectures, _ = localcheck.GetArchitectures(app.Path)
 
 	info, err := remotecheck.GetInfo(app.Name)
-	if err == remotecheck.ErrNotFound {
-		return app, nil
-	}
-	if err != nil {
-		return Application{}, err
+	if err == nil {
+		app.Website = info.Website
+		app.ArmSupport = info.ArmSupport
 	}
 
-	app.Website = info.Website
-	app.ArmSupport = info.ArmSupport
-
-	return app, nil
+	return app
 }
