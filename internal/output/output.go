@@ -13,7 +13,7 @@ func Table(apps []macapp.Application) {
 	table.SetHeader([]string{"Name", "Current ßArchitectures", "Arm Support"})
 
 	for _, app := range apps {
-		table.Append([]string{app.Name, app.Architectures.String(), app.ArmSupport})
+		table.Append([]string{app.Name, app.Architectures.String(), app.ArmSupport.String()})
 	}
 
 	table.Render()

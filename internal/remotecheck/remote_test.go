@@ -17,5 +17,5 @@ func TestGetInfo(t *testing.T) {
 
 	info, err := GetInfo("Go (golang)")
 	assert.Nil(t, err)
-	assert.Equal(t, "✅", info.ArmSupport)
+	assert.Equal(t, SupportNative, info.ArmSupport)
 }

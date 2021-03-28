@@ -39,7 +39,7 @@ type Application struct {
 	// Website shows the app's website, empty if unknown
 	Website string
 	// ArmSupport shows the Apple Silicon support based on Does It Arm reports
-	ArmSupport string
+	ArmSupport remotecheck.Support
 }
 
 // GetAllApplications returns all applications

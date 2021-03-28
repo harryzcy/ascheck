@@ -18,7 +18,7 @@ var (
 
 type AppInfo struct {
 	Website    string
-	ArmSupport string
+	ArmSupport Support
 }
 
 // Init loads the list of reported app Arm from Does it ARM.
@@ -39,9 +39,9 @@ func Init() error {
 	for _, match := range matches {
 		name := match[1]
 		info := AppInfo{
-			Website:    match[2],
-			ArmSupport: match[3],
+			Website: match[2],
 		}
+		info.ArmSupport.Parse(match[3])
 		infoCache[name] = info
 	}
 
