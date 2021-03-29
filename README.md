@@ -4,6 +4,13 @@ A CLI tool that checks all your apps for their Apple Silicon support.
 
 ## Installation
 
+### Homebrew Tap
+
+```shell
+brew tap harryzcy/ascheck
+brew install ascheck
+```
+
 ### go install
 
 ```shell
