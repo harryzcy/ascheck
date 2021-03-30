@@ -2,9 +2,24 @@
 
 A CLI tool that checks all your apps for their Apple Silicon support.
 
+---
+
+## Table of Contents
+
+- [Installation](#installation)
+  - [Homebrew tap](#homebrew-tap)
+  - [go install](#go-install)
+  - [Compile from source](#compile-from-source)
+- [Example Usage](#example-usage)
+  - [Show help](#show-help)
+  - [Run](#run)
+  - [Output](#output)
+
+---
+
 ## Installation
 
-### Homebrew Tap
+### Homebrew tap
 
 ```shell
 brew tap harryzcy/ascheck
@@ -38,8 +53,32 @@ go mod tidy
 go build -o ascheck .
 ```
 
-#### run
+## Example Usage
+
+### Show help
 
 ```shell
 ./ascheck -h
 ```
+
+### Run
+
+```shell
+./ascheck
+```
+
+### Output
+
+The output will show:
+
+```shell
+NAME        CURRENT ARCHITECTURES  ARM SUPPORT
+------------------------------------------------
+App Store   Intel 64               Supported
+Automator   Intel 64               Supported
+...
+```
+
+- NAME: name of the app
+- CURRENT ARCHITECTURES: the architecture of the currently installed version
+- ARM SUPPORT: the arm support information on [Does it Arm](https://github.com/ThatGuySam/doesitarm)
