@@ -1,6 +1,6 @@
 # Apple Silicon Check
 
-A CLI tool that checks all your apps for their Apple Silicon support.
+A CLI tool that bulk-checks your apps for the Apple Silicon support.
 
 ---
 
