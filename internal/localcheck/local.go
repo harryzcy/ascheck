@@ -35,6 +35,7 @@ func getExecutableName(path string) (string, error) {
 	return plistDecoded.CFBundleExecutable, err
 }
 
+// GetArchitectures returns all supported architecture given the app's path.
 func GetArchitectures(path string) (Architectures, error) {
 	executableName, err := getExecutableName(path)
 	if err != nil {

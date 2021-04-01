@@ -12,7 +12,7 @@ const (
 	SupportTransition
 	// SupportInDevelopment means an app does not support Apple Silicon yet but the support is in development
 	SupportInDevelopment
-	// SupportInDevelopment means an app does not support Apple Silicon
+	// SupportNotYet means an app does not support Apple Silicon
 	SupportNotYet
 	// SupportUnknown means it's not known if an app supports Apple Silicon
 	SupportUnknown

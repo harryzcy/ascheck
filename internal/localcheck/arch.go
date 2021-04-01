@@ -53,9 +53,9 @@ func (arch *Architectures) String() string {
 
 	if len(list) > 0 {
 		return strings.Join(list, ", ")
-	} else {
-		return "Unknown"
 	}
+
+	return "Unknown"
 }
 
 func getBitString(mask uint) string {
