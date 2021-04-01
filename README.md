@@ -1,5 +1,8 @@
 # Apple Silicon Check
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/harryzcy/ascheck)](https://goreportcard.com/report/github.com/harryzcy/ascheck)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+
 A CLI tool that bulk-checks your apps for the Apple Silicon support.
 
 ---
