@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+// Architectures represents all supported architecture of an app
 type Architectures struct {
 	Intel   uint
 	Arm     uint

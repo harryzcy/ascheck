@@ -27,6 +27,7 @@ func init() {
 	}
 }
 
+// Application represents an installed app
 type Application struct {
 	// Name shows the app name
 	Name string

@@ -16,6 +16,7 @@ var (
 	infoCache map[string]AppInfo = make(map[string]AppInfo)
 )
 
+// AppInfo represents the basic information of an app obtained from remote sources
 type AppInfo struct {
 	Website    string
 	ArmSupport Support
@@ -48,6 +49,7 @@ func Init() error {
 	return nil
 }
 
+// GetInfo returns the info of an app from remote sources
 func GetInfo(name string) (AppInfo, error) {
 	if info, ok := infoCache[name]; ok {
 		return info, nil

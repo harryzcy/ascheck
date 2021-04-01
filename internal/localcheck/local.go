@@ -104,9 +104,9 @@ func getInterpreterPath(filename string) (path string, ok bool) {
 		}
 
 		return path, true
-	} else {
-		path := strings.SplitN(line, " ", 2)[0]
-
-		return path, true
 	}
+
+	path = strings.SplitN(line, " ", 2)[0]
+
+	return path, true
 }
