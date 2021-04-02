@@ -1,5 +1,6 @@
 # Apple Silicon Check
 
+[![Actions Status](https://github.com/harryzcy/ascheck/workflows/Build%20and%20Test/badge.svg)](https://github.com/harryzcy/ascheck/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/harryzcy/ascheck)](https://goreportcard.com/report/github.com/harryzcy/ascheck)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
