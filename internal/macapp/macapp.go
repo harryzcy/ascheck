@@ -25,7 +25,7 @@ func init() {
 	}
 }
 
-// Application represents an installed app
+// Application represents an installed app.
 type Application struct {
 	// Name shows the app name
 	Name string
@@ -41,7 +41,7 @@ type Application struct {
 	ArmSupport remotecheck.Support
 }
 
-// GetAllApplications returns all applications
+// GetAllApplications returns all applications.
 func GetAllApplications(dirs []string) ([]Application, error) {
 	var (
 		applications []Application

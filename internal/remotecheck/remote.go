@@ -16,13 +16,13 @@ var (
 	infoCache map[string]AppInfo = make(map[string]AppInfo)
 )
 
-// AppInfo represents the basic information of an app obtained from remote sources
+// AppInfo contains information of an app obtained from remote sources.
 type AppInfo struct {
 	Website    string
 	ArmSupport Support
 }
 
-// Init loads the list of reported app Arm from Does it ARM.
+// Init loads the list of apps that supports Apple Silicon from Does it ARM.
 func Init() error {
 	resp, err := http.Get(sourceURL)
 	if err != nil {
@@ -49,7 +49,7 @@ func Init() error {
 	return nil
 }
 
-// GetInfo returns the info of an app from remote sources
+// GetInfo returns the info of an app from remote sources, given the app name.
 func GetInfo(name string) (AppInfo, error) {
 	if info, ok := infoCache[name]; ok {
 		return info, nil

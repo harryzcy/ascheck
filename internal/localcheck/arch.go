@@ -5,14 +5,14 @@ import (
 	"strings"
 )
 
-// Architectures represents all supported architecture of an app
+// Architectures represents all supported architecture of an app.
 type Architectures struct {
 	Intel   uint
 	Arm     uint
 	PowerPC uint
 }
 
-// Load loads the architectures from macho.Cpu
+// Load loads the architectures from macho.Cpu.
 func (arch *Architectures) Load(cpu macho.Cpu) {
 	switch cpu {
 	case macho.Cpu386:
@@ -30,14 +30,14 @@ func (arch *Architectures) Load(cpu macho.Cpu) {
 	}
 }
 
-// LoadFromFat loads the architectures from []macho.FatArch
+// LoadFromFat loads the architectures from []macho.FatArch.
 func (arch *Architectures) LoadFromFat(src []macho.FatArch) {
 	for _, fat := range src {
 		arch.Load(fat.Cpu)
 	}
 }
 
-// String returns the architecture in string format
+// String returns the architecture in string format.
 func (arch *Architectures) String() string {
 	var list []string
 

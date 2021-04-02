@@ -7,7 +7,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-// Table prints application information in table format
+// Table prints application information in table format.
 func Table(apps []macapp.Application) {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Name", "Current Architectures", "Arm Support"})

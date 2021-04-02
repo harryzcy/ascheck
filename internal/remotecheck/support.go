@@ -1,20 +1,20 @@
 package remotecheck
 
-// Support represents the Arm support status of an app
+// Support represents the Arm support status of an app.
 type Support uint
 
 const (
-	// SupportUndefined is the zero value of Support type
+	// SupportUndefined is the zero value of Support type.
 	SupportUndefined Support = iota // zero value
-	// SupportNative means an app have native Apple Silicon support
+	// SupportNative means an app have native Apple Silicon support.
 	SupportNative
-	// SupportTransition means an app is supported vis Rosetta 2 or Virtual Environment
+	// SupportTransition means an app is supported vis Rosetta 2 or Virtual Environment.
 	SupportTransition
-	// SupportInDevelopment means an app does not support Apple Silicon yet but the support is in development
+	// SupportInDevelopment means an app does not support Apple Silicon yet but the support is in development.
 	SupportInDevelopment
-	// SupportNotYet means an app does not support Apple Silicon
+	// SupportNotYet means an app does not support Apple Silicon.
 	SupportNotYet
-	// SupportUnknown means it's not known if an app supports Apple Silicon
+	// SupportUnknown means it's not known if an app supports Apple Silicon.
 	SupportUnknown
 )
 
