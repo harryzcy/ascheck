@@ -1,8 +1,6 @@
 package macapp
 
 import (
-	"io/fs"
-	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -54,7 +52,7 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 	}
 
 	for _, dir := range dirs {
-		files, err := ioutil.ReadDir(dir)
+		entries, err := os.ReadDir(dir)
 		if err != nil {
 			if os.IsNotExist(err) {
 				continue
@@ -62,9 +60,9 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 			return nil, err
 		}
 
-		for _, f := range files {
-			if strings.HasSuffix(f.Name(), ".app") {
-				app := checkApplication(dir, f)
+		for _, entry := range entries {
+			if strings.HasSuffix(entry.Name(), ".app") {
+				app := checkApplication(dir, entry)
 				applications = append(applications, app)
 			}
 		}
@@ -73,10 +71,10 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 	return applications, nil
 }
 
-func checkApplication(dir string, f fs.FileInfo) Application {
+func checkApplication(dir string, entry os.DirEntry) Application {
 	app := Application{
-		Name: strings.TrimSuffix(f.Name(), ".app"),
-		Path: filepath.Join(dir, f.Name()),
+		Name: strings.TrimSuffix(entry.Name(), ".app"),
+		Path: filepath.Join(dir, entry.Name()),
 	}
 
 	app.Architectures, _ = localcheck.GetArchitectures(app.Path)
