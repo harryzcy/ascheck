@@ -9,13 +9,15 @@ import (
 func TestApplication_GetExecutableName(t *testing.T) {
 	exec, err := getExecutableName("./../../test/data/py_app.app")
 	assert.Nil(t, err)
-	assert.Equal(t, "py_app", exec)
+	assert.Equal(t, "run.py", exec)
 }
 
 func TestApplication_GetArchitectures(t *testing.T) {
-	arch, err := GetArchitectures("./../../test/data/py_app.app")
+	arch, err := GetArchitectures("./../../test/data/example_macho.app")
 	assert.Nil(t, err)
-	assert.NotEmpty(t, arch)
+	assert.EqualValues(t, 0b01, arch.Intel)
+	assert.EqualValues(t, 0, arch.PowerPC)
+	assert.EqualValues(t, 0, arch.Arm)
 }
 
 func TestGetInterpreterPath(t *testing.T) {
