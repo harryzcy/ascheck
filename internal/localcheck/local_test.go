@@ -7,17 +7,13 @@ import (
 )
 
 func TestApplication_GetExecutableName(t *testing.T) {
-	exec, err := getExecutableName("/System/Applications/Maps.app")
+	exec, err := getExecutableName("./../../test/data/py_app.app")
 	assert.Nil(t, err)
-	assert.Equal(t, "Maps", exec)
+	assert.Equal(t, "py_app", exec)
 }
 
 func TestApplication_GetArchitectures(t *testing.T) {
-	arch, err := GetArchitectures("/System/Applications/Maps.app")
-	assert.Nil(t, err)
-	assert.EqualValues(t, 0b10, arch.Intel)
-
-	arch, err = GetArchitectures("./../../test/data/py_app.app")
+	arch, err := GetArchitectures("./../../test/data/py_app.app")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, arch)
 }
@@ -25,16 +21,16 @@ func TestApplication_GetArchitectures(t *testing.T) {
 func TestGetInterpreterPath(t *testing.T) {
 	tests := []struct {
 		file         string
-		expectedPath string
+		expectedPath []string
 		expectedOK   bool
 	}{
-		{"./../../test/data/bash.sh", "/bin/bash", true},
-		{"./../../test/data/env_bash.sh", "/bin/bash", true},
+		{"./../../test/data/bash.sh", []string{"/bin/bash"}, true},
+		{"./../../test/data/env_bash.sh", []string{"/bin/bash", "/usr/bin/bash"}, true},
 	}
 
 	for _, test := range tests {
 		path, ok := getInterpreterPath(test.file)
-		assert.Equal(t, test.expectedPath, path)
+		assert.Contains(t, test.expectedPath, path)
 		assert.Equal(t, test.expectedOK, ok)
 	}
 }
