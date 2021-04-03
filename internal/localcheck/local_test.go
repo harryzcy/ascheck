@@ -30,8 +30,8 @@ func TestApplication_GetArchitectures(t *testing.T) {
 	arch, err = GetArchitectures("./../../test/data/sh_app.app")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, arch)
-	if assert.Empty(t, arch) {
-		t.Error(arch)
+	if err != nil {
+		t.Error(err)
 	}
 }
 
