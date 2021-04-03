@@ -41,14 +41,14 @@ func (arch *Architectures) LoadFromFat(src []macho.FatArch) {
 func (arch *Architectures) String() string {
 	var list []string
 
+	if arch.PowerPC > 0 {
+		list = append(list, "PowerPC "+getBitString(arch.PowerPC))
+	}
 	if arch.Intel > 0 {
 		list = append(list, "Intel "+getBitString(arch.Intel))
 	}
 	if arch.Arm > 0 {
 		list = append(list, "Arm "+getBitString(arch.Arm))
-	}
-	if arch.PowerPC > 0 {
-		list = append(list, "PowerPC "+getBitString(arch.PowerPC))
 	}
 
 	if len(list) > 0 {

@@ -18,4 +18,9 @@ func TestGetInfo(t *testing.T) {
 	info, err := GetInfo("Go (golang)")
 	assert.Nil(t, err)
 	assert.Equal(t, SupportNative, info.ArmSupport)
+
+	info, err = GetInfo("nonexist-app")
+	assert.NotNil(t, err)
+	assert.Equal(t, ErrNotFound, err)
+	assert.Empty(t, info)
 }

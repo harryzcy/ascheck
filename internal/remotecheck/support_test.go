@@ -27,3 +27,22 @@ func TestSupport_Parse(t *testing.T) {
 		assert.Equal(t, test.expected, actual)
 	}
 }
+
+func TestSupport_String(t *testing.T) {
+	tests := []struct {
+		support  Support
+		expected string
+	}{
+		{SupportNative, "Supported"},
+		{SupportTransition, "Supported*"},
+		{SupportInDevelopment, "Unsupported"},
+		{SupportNotYet, "Unsupported"},
+		{SupportUnknown, "Unknown"},
+		{SupportUndefined, "Unknown"},
+	}
+
+	for _, test := range tests {
+		actual := test.support.String()
+		assert.Equal(t, test.expected, actual)
+	}
+}
