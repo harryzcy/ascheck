@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
   <key>CFBundleExecutable</key>
-  <string>run.py</string>
+  <string>run.sh</string>
   <key>CFBundleIdentifier</key>
   <string>com.example.io</string>
   <key>CFBundleName</key>

@@ -9,9 +9,9 @@ import (
 )
 
 func TestApplication_GetExecutableName(t *testing.T) {
-	exec, err := getExecutableName("./../../test/data/py_app.app")
+	exec, err := getExecutableName("./../../test/data/sh_app.app")
 	assert.Nil(t, err)
-	assert.Equal(t, "run.py", exec)
+	assert.Equal(t, "run.sh", exec)
 }
 
 func TestApplication_GetArchitectures(t *testing.T) {
@@ -27,7 +27,7 @@ func TestApplication_GetArchitectures(t *testing.T) {
 	assert.EqualValues(t, 0, arch.PowerPC)
 	assert.EqualValues(t, 0, arch.Arm)
 
-	arch, err = GetArchitectures("./../../test/data/py_app.app")
+	arch, err = GetArchitectures("./../../test/data/sh_app.app")
 	assert.Nil(t, err)
 	assert.NotEmpty(t, arch)
 }
