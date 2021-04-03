@@ -28,10 +28,11 @@ func TestApplication_GetArchitectures(t *testing.T) {
 	assert.EqualValues(t, 0, arch.Arm)
 
 	arch, err = GetArchitectures("./../../test/data/sh_app.app")
-	assert.Nil(t, err)
-	assert.NotEmpty(t, arch)
-	if err != nil {
-		t.Error(err)
+	if err == nil { // should pass on macOS
+		assert.NotEmpty(t, arch)
+	} else { // would failed on linux
+		assert.Equal(t, errors.New("unknown file type"), err)
+		assert.Empty(t, arch)
 	}
 }
 
