@@ -63,13 +63,13 @@ go build -o ascheck .
 ### Show help
 
 ```shell
-./ascheck -h
+ascheck -h
 ```
 
 ### Run
 
 ```shell
-./ascheck
+ascheck
 ```
 
 ### Output
