@@ -15,11 +15,15 @@ type AppInfo struct {
 	// These fields are used for determining localized app name and executable file's name,
 	// and they are documented by Apple at
 	// https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html.
+	CFBundleName        string
 	CFBundleDisplayName string
 	CFBundleExecutable  string
 }
 
 func (info AppInfo) GetDisplayName() string {
+	if info.CFBundleDisplayName == "" {
+		return info.CFBundleName
+	}
 	return info.CFBundleDisplayName
 }
 
