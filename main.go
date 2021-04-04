@@ -30,6 +30,12 @@ func main() {
 				Name:  "json",
 				Usage: "output in json format",
 			},
+			&cli.StringFlag{
+				Name:    "lang",
+				Aliases: []string{"l"},
+				EnvVars: []string{"LANG"},
+				Usage:   "language for displaying app names",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			err := remotecheck.Init()
