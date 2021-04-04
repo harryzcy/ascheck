@@ -1,6 +1,7 @@
 package output
 
 import (
+	"encoding/json"
 	"io"
 	"os"
 
@@ -24,4 +25,24 @@ func Table(apps []macapp.Application) {
 	}
 
 	table.Render()
+}
+
+// JSON prints application information in json format.
+func JSON(apps []macapp.Application) {
+	items := make([]map[string]string, len(apps))
+
+	for idx, app := range apps {
+		row := map[string]string{
+			"name":                 app.Name,
+			"currentArchitectures": app.Architectures.String(),
+			"armSupport":           app.ArmSupport.String(),
+		}
+		items[idx] = row
+	}
+
+	output, _ := json.Marshal(map[string]interface{}{
+		"items": items,
+	})
+	output = append(output, byte('\n'))
+	out.Write(output)
 }
