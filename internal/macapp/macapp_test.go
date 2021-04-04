@@ -7,7 +7,7 @@ import (
 )
 
 func TestGetAllApplications(t *testing.T) {
-	apps, err := GetAllApplications(nil)
+	apps, err := GetAllApplications(nil, "")
 	assert.Nil(t, err)
 	assert.IsType(t, []Application{}, apps)
 }

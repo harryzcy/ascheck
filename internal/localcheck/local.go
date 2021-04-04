@@ -11,14 +11,9 @@ import (
 )
 
 // GetArchitectures returns all supported architecture given the app's path.
-func GetArchitectures(path string) (Architectures, error) {
-	executableName, err := getExecutableName(path)
-	if err != nil {
-		return Architectures{}, err
-	}
-
+func (info AppInfo) GetArchitectures() (Architectures, error) {
 	// binary file path
-	executable := filepath.Join(path, "Contents", "MacOS", executableName)
+	executable := filepath.Join(info.path, "Contents", "MacOS", info.GetExecutableName())
 
 	return getExecutableArchitectures(executable)
 }

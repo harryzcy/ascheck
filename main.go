@@ -41,7 +41,7 @@ func main() {
 			err := remotecheck.Init()
 			handleErr(err)
 
-			apps, err := macapp.GetAllApplications(nil)
+			apps, err := macapp.GetAllApplications(nil, c.String("lang"))
 			handleErr(err)
 
 			if c.Bool("json") {

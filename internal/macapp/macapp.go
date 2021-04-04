@@ -27,8 +27,11 @@ func init() {
 
 // Application represents an installed app.
 type Application struct {
-	// Name shows the app name
+	// Name represents the app bundle name
 	Name string
+
+	// DisplayName represents the localized app name
+	DisplayName string
 
 	// Path shows the physical location
 	Path string
@@ -42,7 +45,7 @@ type Application struct {
 }
 
 // GetAllApplications returns all applications.
-func GetAllApplications(dirs []string) ([]Application, error) {
+func GetAllApplications(dirs []string, lang string) ([]Application, error) {
 	var (
 		applications []Application
 	)
@@ -62,7 +65,7 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 
 		for _, entry := range entries {
 			if strings.HasSuffix(entry.Name(), ".app") {
-				app := checkApplication(dir, entry)
+				app := checkApplication(dir, entry, lang)
 				applications = append(applications, app)
 			}
 		}
@@ -71,13 +74,18 @@ func GetAllApplications(dirs []string) ([]Application, error) {
 	return applications, nil
 }
 
-func checkApplication(dir string, entry os.DirEntry) Application {
+func checkApplication(dir string, entry os.DirEntry, lang string) Application {
 	app := Application{
 		Name: strings.TrimSuffix(entry.Name(), ".app"),
 		Path: filepath.Join(dir, entry.Name()),
 	}
 
-	app.Architectures, _ = localcheck.GetArchitectures(app.Path)
+	localInfo, err := localcheck.GetAppInfo(app.Path, lang)
+	if err != nil {
+		return app
+	}
+	app.DisplayName = localInfo.GetDisplayName()
+	app.Architectures, _ = localInfo.GetArchitectures()
 
 	// mark system apps as natively supported
 	if strings.HasPrefix(dir, "/System/") {

@@ -2,32 +2,31 @@ package localcheck
 
 import (
 	"errors"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
 
-func TestApplication_GetExecutableName(t *testing.T) {
-	exec, err := getExecutableName("./../../test/data/sh_app.app")
-	assert.Nil(t, err)
-	assert.Equal(t, "run.sh", exec)
-}
-
 func TestApplication_GetArchitectures(t *testing.T) {
-	arch, err := GetArchitectures("./../../test/data/example_macho.app")
+	info, err := GetAppInfo("./../../test/data/example_macho.app", "")
+	assert.Nil(t, err)
+	arch, err := info.GetArchitectures()
 	assert.Nil(t, err)
 	assert.EqualValues(t, 0b01, arch.Intel)
 	assert.EqualValues(t, 0, arch.PowerPC)
 	assert.EqualValues(t, 0, arch.Arm)
 
-	arch, err = GetArchitectures("./../../test/data/example_fat.app")
+	info, err = GetAppInfo("./../../test/data/example_fat.app", "")
+	assert.Nil(t, err)
+	arch, err = info.GetArchitectures()
 	assert.Nil(t, err)
 	assert.EqualValues(t, 0b10, arch.Intel)
 	assert.EqualValues(t, 0, arch.PowerPC)
 	assert.EqualValues(t, 0, arch.Arm)
 
-	arch, err = GetArchitectures("./../../test/data/sh_app.app")
+	info, err = GetAppInfo("./../../test/data/sh_app.app", "")
+	assert.Nil(t, err)
+	arch, err = info.GetArchitectures()
 	if err == nil { // should pass on macOS
 		assert.NotEmpty(t, arch)
 	} else { // would failed on linux
@@ -37,26 +36,18 @@ func TestApplication_GetArchitectures(t *testing.T) {
 }
 
 func TestApplication_GetArchitectures_Error(t *testing.T) {
-	// Invalid path
-	arch, err := GetArchitectures("./../../test/data/invalid.app")
-	assert.NotNil(t, err)
-	assert.True(t, os.IsNotExist(err))
-	assert.Empty(t, arch)
-
-	// Invalid plist
-	arch, err = GetArchitectures("./../../test/data/invalid_plist.app")
-	assert.NotNil(t, err)
-	assert.False(t, os.IsNotExist(err))
-	assert.Empty(t, arch)
-
 	// Invalid interpreter
-	arch, err = GetArchitectures("./../../test/data/invalid_interpreter.app")
+	info, err := GetAppInfo("./../../test/data/invalid_interpreter.app", "")
+	assert.Nil(t, err)
+	arch, err := info.GetArchitectures()
 	assert.NotNil(t, err)
 	assert.Equal(t, errors.New("unable to get executable path"), err)
 	assert.Empty(t, arch)
 
 	// Unknown file type
-	arch, err = GetArchitectures("./../../test/data/unknown_type.app")
+	info, err = GetAppInfo("./../../test/data/unknown_type.app", "")
+	assert.Nil(t, err)
+	arch, err = info.GetArchitectures()
 	assert.NotNil(t, err)
 	assert.Equal(t, errors.New("unknown file type"), err)
 	assert.Empty(t, arch)
