@@ -30,6 +30,22 @@ func TestTable(t *testing.T) {
 		"  NAME  CURRENT ARCHITECTURES  ARM SUPPORT  \n"+
 		"--------------------------------------------\n"+
 		"  a     Intel 64               Supported    \n"+
-		"  b     Intel 64               Supported    \n", str.String())
+		"  b     Intel 64               Supported    \n",
+		str.String())
+
+}
+
+func TestJSON(t *testing.T) {
+	apps := []macapp.Application{
+		{Name: "a", Architectures: localcheck.Architectures{Intel: 0b10}, ArmSupport: remotecheck.SupportNative},
+	}
+
+	str.Reset()
+
+	JSON(apps)
+
+	assert.Equal(t, `{"items":[{"armSupport":"Supported","currentArchitectures":"Intel 64","name":"a"}]}`+"\n",
+		str.String(),
+	)
 
 }

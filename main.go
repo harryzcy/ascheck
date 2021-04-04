@@ -25,6 +25,12 @@ func main() {
 		Version:         "0.1.0",
 		HideHelpCommand: true,
 		UsageText:       "ascheck [global options]",
+		Flags: []cli.Flag{
+			&cli.BoolFlag{
+				Name:  "json",
+				Usage: "output in json format",
+			},
+		},
 		Action: func(c *cli.Context) error {
 			err := remotecheck.Init()
 			handleErr(err)
@@ -32,7 +38,11 @@ func main() {
 			apps, err := macapp.GetAllApplications(nil)
 			handleErr(err)
 
-			output.Table(apps)
+			if c.Bool("json") {
+				output.JSON(apps)
+			} else {
+				output.Table(apps)
+			}
 			return nil
 		},
 	}
