@@ -22,7 +22,7 @@ func handleErr(err error) {
 func main() {
 	app := &cli.App{
 		Usage:           "A cli app that check app's Apple Silicon support",
-		Version:         "0.1.0",
+		Version:         "0.2.0",
 		HideHelpCommand: true,
 		UsageText:       "ascheck [global options]",
 		Flags: []cli.Flag{
