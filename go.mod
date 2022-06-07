@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/olekukonko/tablewriter v0.0.5
-	github.com/stretchr/testify v1.7.1
+	github.com/stretchr/testify v1.7.2
 	github.com/urfave/cli/v2 v2.8.1
 	howett.net/plist v1.0.0
 )
@@ -17,5 +17,5 @@ require (
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
