@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/stretchr/testify v1.8.2
-	github.com/urfave/cli/v2 v2.25.1
+	github.com/urfave/cli/v2 v2.25.2
 	howett.net/plist v1.0.0
 )
 
